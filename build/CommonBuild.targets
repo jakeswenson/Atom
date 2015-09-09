@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PerformBuildPackageNuGetUpdate Condition="'$(PerformBuildPackageNuGetUpdate)' == ''">false</PerformBuildPackageNuGetUpdate>
+    <UseLatestPFBuild Condition="'$(UseLatestPFBuild)' == ''">false</UseLatestPFBuild>
+    <UsePFBuildPreRelease Condition="'$(UsePFBuildPreRelease)' == ''">false</UsePFBuildPreRelease>
+    <NuGetPackageDirectory Condition="'$(NuGetPackageDirectory)' == ''" >$(MSBuildProjectDirectory)\packages\</NuGetPackageDirectory>
+    <NuGetPackageDirectory Condition="!HasTrailingSlash('$(NuGetPackageDirectory)')" >$(NuGetPackageDirectory)\</NuGetPackageDirectory>
+    <RestoreNugetPackages Condition="'$(RestoreNugetPackages)' == ''">true</RestoreNugetPackages>
+  </PropertyGroup>
+
+  <!-- Nuget source item template (and default values) -->
+  <ItemDefinitionGroup>
+    <NuGetSource>
+      <UseForUpdates>true</UseForUpdates>
+    </NuGetSource>
+    <NuGetPackage>
+      <VersionSuffix></VersionSuffix>
+    </NuGetPackage>
+  </ItemDefinitionGroup>
+
+  <!-- Nuget sources -->
+  <ItemGroup>
+      <NuGetSource Include="$(LocalNuGetSource)" Condition="'$(LocalNuGetSource)' != ''" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <_NuGetToolPath Condition="'$(_NuGetToolPath)' == ''">.nuget\NuGet.exe</_NuGetToolPath>
+  </PropertyGroup>
+  
+  <UsingTask
+    TaskName="DownloadFile"
+    TaskFactory="CodeTaskFactory"
+    AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+    <ParameterGroup>
+      <Uri/>
+      <OutputFile/>
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System" />
+      <Using Namespace="System.Net" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+using(var webClient = new WebClient())
+{
+  webClient.DownloadFile(Uri, OutputFile);
+}
+]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="GetNuGet" Condition="!Exists('$(_NuGetToolPath)')">
+    <Message Text="==================================================" />
+    <Message Text="== Download NuGet" />
+    <Message Text="== Downloading NuGet.exe to: $(_NuGetToolPath)" />
+    <Message Text="==" />
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName('$(_NuGetToolPath)'))" />
+    <DownloadFile Uri="http://nuget.org/nuget.exe" OutputFile="$(_NuGetToolPath)" />
+    <Message Text="== Done downloading NuGet.exe" />
+    <Message Text="==================================================" />
+  </Target>
+
+  <Target Name="ConstructNuGetSourceArguments" >
+    <Message Text="==================================================" />
+    <Message Text="== Constructing NuGet Source arguments" />
+    <Message Text="==" />
+
+    <RemoveDuplicates Inputs="@(NuGetSource)" >
+      <Output TaskParameter="Filtered" ItemName="UniqueNuGetSource" />
+    </RemoveDuplicates>
+
+    <Message Text="== Using Source: %(UniqueNuGetSource.Identity)" />
+
+    <PropertyGroup>
+      <_NuGetSourceArgs>-Source @(UniqueNuGetSource, ' -Source ')</_NuGetSourceArgs>
+      <_NoCacheArg Condition="'$(UseNuGetNoCache)' == 'true'">-NoCache</_NoCacheArg>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="GatherNugetPackageConfigs" DependsOnTargets="">
+    <ItemGroup>
+      <NuGetPackageConfig Include=".\**\packages.config" />
+      <_UniqueNugetPackageConfig Include="@(NuGetPackageConfig->'%(FullPath)'->Distinct())" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="GatherRestoreCacheFiles" DependsOnTargets="">
+    <PropertyGroup>
+      <_BuildRestoreCacheDirectory>$(NuGetPackageDirectory)_build.restore\</_BuildRestoreCacheDirectory>
+    </PropertyGroup>
+    <ItemGroup>
+      <_NugetRestoreLogFile Include="$(_BuildRestoreCacheDirectory)restore.log" />
+      <_NugetRestoreCacheDotIntermediate 
+        Include="@(_UniqueNugetPackageConfig->'%(RootDir)%(Directory)%(Filename).restore.cache'->Replace('$(BuildRoot)', '')->Replace('\', '.'))" >
+        <SourcePackageConfig>%(Identity)</SourcePackageConfig>
+      </_NugetRestoreCacheDotIntermediate>
+      <_NugetRestoreCache Include="@(_NugetRestoreCacheDotIntermediate -> '$(_BuildRestoreCacheDirectory)%(Identity)')" >
+        <SourcePackageConfig>%(SourcePackageConfig)</SourcePackageConfig>
+      </_NugetRestoreCache>
+      <_NugetRestoreItem Include="@(_NugetRestoreCache -> '%(SourcePackageConfig)')">
+        <RestoreCache>%(Identity)</RestoreCache>
+      </_NugetRestoreItem>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_LogForPartialRestore">
+    <Message Text="UniqueNugetPackageConfig Count: @(_UniqueNugetPackageConfig->Count())" />
+    <Message Text="_NugetRestoreCache Count: @(_NugetRestoreCache->Count())" />
+    <Message Text="%(_NugetRestoreCache.SourcePackageConfig) -> %(_NugetRestoreCache.Identity)" />
+  </Target>
+
+  <PropertyGroup>
+    <RestoreNuGetReferencesDependsOn>
+      GetNuGet;
+      ConstructNuGetSourceArguments;
+      GatherNugetPackageConfigs;
+      GatherRestoreCacheFiles;
+      _LogForPartialRestore;
+      $(RestoreNuGetReferencesDependsOn)
+    </RestoreNuGetReferencesDependsOn>
+  </PropertyGroup>
+  <!-- Restore our nuget packages (mainly our PF.Build, so that we have the build targets) -->
+  <Target Name="RestoreNuGetReferences" 
+      Condition="'$(RestoreNugetPackages)' == 'true'" 
+      DependsOnTargets="$(RestoreNuGetReferencesDependsOn)"
+      Inputs="@(_NugetRestoreItem)"
+      Outputs="@(_NugetRestoreItem->'%(RestoreCache)')">
+    <Message Text="==================================================" />
+    <Message Text="== Restore NuGet packages" />
+    <Message Text="==" />
+    <Message Text="== Package Configs: %(_NugetRestoreItem.Identity)" />
+    <Message Text="==" />
+
+    <Exec 
+      Condition="Exists('%(_NugetRestoreItem.Identity)')"
+      Command="$(_NuGetToolPath) restore %(_NugetRestoreItem.Identity) -NonInteractive -OutputDirectory $(NuGetPackageDirectory) -Verbosity detailed $(_NoCacheArg)" />
+
+    <MakeDir Directories="$(_BuildRestoreCacheDirectory)" />
+    <WriteLinesToFile
+      File="%(_NugetRestoreItem.RestoreCache)"
+      Lines="restored"
+      Overwrite="False"
+      Encoding="UTF-8" />
+  </Target>
+  
+  <Target Name="LogBuildConfig">
+    <ItemGroup>
+      <PFBuildTarget Include="$(NuGetPackageDirectory)PF.Build.*\build\$(_PFBuildCommonTargetsName)" />
+      <PackageFolder Include="$([System.IO.Directory]::GetDirectories($(NuGetPackageDirectory)))" />
+    </ItemGroup>
+    <Message Text="==================================================" />
+    <Message Text="== Starting PF.Build with: SolutionDir=$(SolutionDir), SolutionFile=$(SolutionFile), ProjectName=$(ProjectName)" />
+    <Message Text="==================================================" />
+    <Message Text="== PackageFolder found at: %(PackageFolder.Identity)" />
+    <Message Text="==================================================" />
+    <Message Text="== $(_PFBuildCommonTargetsName) Import Option at: %(PFBuildTarget.Identity)" />
+    <Message Text="==================================================" />
+    <Message Text="== Importing $(_PFBuildCommonTargetsName) from $(PFBuildTargetsPath)" />
+    <Message Text="==================================================" />
+    <Message Text="== Importing $(_CommonBuildTargetsName) from $(CommonBuildTargetsPath)" />
+    <Message Text="==================================================" />
+    <Message Text="== Common tasks at $(MSBuildCommunityTasksTarget)" />
+    <Message Text="==================================================" />
+  </Target>
+  
+  <Target Name="ValidatePFBuildTargetFound">
+    <Error Text="$(_PFBuildCommonTargetsName) was not found from the FindLatestPFBuildTargetAndRecurse task. Please look at the logs to find out why."
+           Condition="'$(PFBuildTargetsPath)' == '' OR !Exists('$(PFBuildTargetsPath)')" />
+  </Target>
+</Project>

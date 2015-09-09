@@ -1,0 +1,60 @@
+{
+  "name": "BusinessPartyRelationship",
+  "schema": "dbo",
+  "additionalInfo": {
+    "temporal": true
+  },
+  "members": {
+    "BusinessPartyRelationshipId": {
+      "unique": true,
+      "isPrimary": true
+    },
+    "BusinessPartyRelationshipTypeId": {
+      "unique": true,
+      "reference": {
+        "name": "BusinessPartyRelationshipType"
+      },
+      "groups": [
+        "AK_BusinessPartyRelationship_BusinessPartyRelationshipTypeId_PrimaryBusinessPartyId_SecondaryBusinessPartyId_BeginDate"
+      ]
+    },
+    "PrimaryBusinessPartyId": {
+      "unique": true,
+      "reference": {
+        "name": "BusinessParty",
+        "member": "BusinessPartyId"
+      },
+      "groups": [
+        "AK_BusinessPartyRelationship_BusinessPartyRelationshipTypeId_PrimaryBusinessPartyId_SecondaryBusinessPartyId_BeginDate"
+      ]
+    },
+    "SecondaryBusinessPartyId": {
+      "unique": true,
+      "reference": {
+        "name": "BusinessParty",
+        "member": "BusinessPartyId"
+      },
+      "groups": [
+        "AK_BusinessPartyRelationship_BusinessPartyRelationshipTypeId_PrimaryBusinessPartyId_SecondaryBusinessPartyId_BeginDate"
+      ]
+    },
+    "BeginDateTimeUtc": {
+      "unique": true,
+      "groups": [
+        "AK_BusinessPartyRelationship_BusinessPartyRelationshipTypeId_PrimaryBusinessPartyId_SecondaryBusinessPartyId_BeginDate"
+      ]
+    },
+    "EndDateTimeUtc": {
+      "optional": true
+    },
+    "HasPatientOptedOut": {
+      "type": "bool",
+      "optional": true
+    }
+  },
+  "groups": {
+    "aK_BusinessPartyRelationship_BusinessPartyRelationshipTypeId_PrimaryBusinessPartyId_SecondaryBusinessPartyId_BeginDate": {
+      "unique": true
+    }
+  }
+}

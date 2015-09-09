@@ -1,0 +1,38 @@
+{
+  "name": "AccountableCareOrganization",
+  "schema": "dbo",
+  "additionalInfo": {
+    "temporal": true
+  },
+  "members": {
+    "AccountableCareOrganizationId": {
+      "queryable": true,
+      "unique": true,
+      "isPrimary": true
+    },
+    "BusinessPartyId": {
+      "queryable": true,
+      "unique": true,
+      "reference": {
+        "name": "BusinessParty"
+      }
+    },
+    "OrganizationName": {
+      "queryable": true,
+      "unique": true,
+      "length": 100,
+      "unicode": true
+    },
+    "AccountableCareOrganizationOid": {
+      "type": "string",
+      "queryable": true,
+      "unique": true,
+      "optional": true,
+      "length": 150
+    },
+    "AcoManagerPartnerGuid": {
+      "optional": true
+    }
+  },
+  "groups": {}
+}

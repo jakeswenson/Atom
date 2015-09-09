@@ -1,0 +1,12 @@
+﻿{
+    "name": "CareOrgManager",
+    "members": {
+        "CareOrgManagerGuid": { "key": true },
+        "CareOrgManagerName": { "length": 50, "unicode": true, "unique": true }
+    },
+    "additionalInfo": {
+        "hideKey": true,
+        "temporal": true,
+        "hasActive": true
+    }
+}

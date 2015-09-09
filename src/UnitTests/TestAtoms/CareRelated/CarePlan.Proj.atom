@@ -1,0 +1,16 @@
+﻿{
+    "name": "CarePlanInfo",
+    "projections": {
+        "CareOrgManager": [ ],
+        "CarePlan": [ ],
+        "CareOrg": [ ], // try commenting this out
+        "CareOrgPatient": {
+            select: [ "CareOrgPatientGuid" ],
+            aliases: { 
+                "MyB":  "CareOrgPatientGuid"
+            }
+        }
+    },
+    "onlyActive": true,
+    "ignoreConflicts":  true
+}

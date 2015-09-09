@@ -1,0 +1,35 @@
+{
+    "name": "Test",
+    "additionalInfo": {
+        "hideKey": true,
+        "hasAltKey": true,
+        "hasActive": true,
+        "hasTemporal": true
+    },
+    "members": {
+        "DocumentGuid": { },
+        "EhrPatientPracticeGuid": {
+            "queryable": true,
+            "unique": true,
+            "groups": [ "$UniqueCareOrg+PPG$" ]
+        },
+        "CareOrgGuid": {
+            "groups": [ "$UniqueCareOrg+PPG$" ],
+            "reference": {
+                "name": "CareOrg"
+            }
+        },
+        "CareOrgName": { },
+        "JakeId": {
+            "optional": true
+        },
+        "TestGuid": {
+            "isAltKey": true
+        }
+    },
+    "groups": {
+        "$UniqueCareOrg+PPG$": {
+            "unique": true
+        }
+    }
+}

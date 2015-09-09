@@ -1,0 +1,25 @@
+﻿{
+    "name": "CarePlan",
+    "members": {
+        "CarePlanId": {
+            isPrimary: true
+        },
+        "CarePlanOtherPrimaryId": {
+            isPrimary: true
+        },
+        "CareProgramGuid": {
+            "reference": {
+                "name": "CareProgram"
+            }
+        },
+        "CareOrgPatientGuid": {
+            "reference": {
+                "name": "CareOrgPatient"
+            }
+        }
+    },
+    "additionalInfo": {
+        "temporal": true,
+        "hasActive": true
+    }
+}

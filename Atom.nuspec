@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Atom</id>
+    <version>0.13.2</version>
+    <authors>jswenson</authors>
+    <owners>jswenson</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Atom Sql/C# generator</description>
+    <releaseNotes>Adding linked data generation</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+  </metadata>
+  <files>
+    <file src="_bin\*.dll" target="tools\" />
+    <file src="_bin\*.exe" target="tools\" />
+    <file src="_bin\*.pdb" target="tools\" />
+  </files>
+</package>

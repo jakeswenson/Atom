@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), '.buildroot'))\build\build.props" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6F2145CF-02FA-4C0F-ABE3-0EFC94B16874}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Atom</RootNamespace>
+    <AssemblyName>Atom</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>396abf91</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\_bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\..\build\packages\JetBrains.Annotations.9.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\build\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\build\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfoExtended, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\build\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.ConnectionInfoExtended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\build\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\build\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.Smo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SmoExtended, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\build\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.SmoExtended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlClrProvider, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\build\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.SqlClrProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\build\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.SqlEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MoreLinq">
+      <HintPath>..\..\build\packages\morelinq.1.1.0\lib\net35\MoreLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\build\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\build\packages\Serilog.1.5.1\lib\net45\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\build\packages\Serilog.1.5.1\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\AtomAdditionalInfo.cs" />
+    <Compile Include="Data\AtomDefaults.cs" />
+    <Compile Include="Data\Configuration\AtomGenerationTargetConfig.cs" />
+    <Compile Include="Data\AtomGroupDefinition.cs" />
+    <Compile Include="Data\AtomIndexDefinition.cs" />
+    <Compile Include="Data\AtomMemberInfo.cs" />
+    <Compile Include="Data\AtomMembers.cs" />
+    <Compile Include="Data\AtomMemberSortDirection.cs" />
+    <Compile Include="Data\AtomReference.cs" />
+    <Compile Include="Data\AtomModel.cs" />
+    <Compile Include="Data\Configuration\CSharpTargetConfig.cs" />
+    <Compile Include="Data\Configuration\DictionaryTargetConverter.cs" />
+    <Compile Include="Data\Configuration\EntitiesTargetConfiguration.cs" />
+    <Compile Include="Data\DatabaseRole.cs" />
+    <Compile Include="Data\LookupDefinition.cs" />
+    <Compile Include="Data\Types\MemberByte.cs" />
+    <Compile Include="Data\Types\MemberDecimal.cs" />
+    <Compile Include="Data\Types\MemberDouble.cs" />
+    <Compile Include="Data\Types\MemberShort.cs" />
+    <Compile Include="Data\Types\ReferenceMemberType.cs" />
+    <Compile Include="Generation\Data\ReferenceMember.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpClassResult.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpMemberNameFinder.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpStrongTypeNameFinder.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpTypeOptionalityFinder.cs" />
+    <Compile Include="Data\Serialization\DatabaseRoleConverter.cs" />
+    <Compile Include="Data\DefaultValues\DefaultDateTime.cs" />
+    <Compile Include="Data\Constants.cs" />
+    <Compile Include="Data\IMergable.cs" />
+    <Compile Include="Data\LookupValue.cs" />
+    <Compile Include="Data\MemberFlags.cs" />
+    <Compile Include="Data\OrderedAtomMembers.cs" />
+    <Compile Include="Data\Projections\AliasedAtomMemberInfo.cs" />
+    <Compile Include="Data\Projections\ProjectionInfo.cs" />
+    <Compile Include="Data\Projections\ProjectionAtom.cs" />
+    <Compile Include="Data\QueryFlags.cs" />
+    <Compile Include="Data\Configuration\RepositoryTargetConfiguration.cs" />
+    <Compile Include="Data\DefaultValues\SqlDefaultValue.cs" />
+    <Compile Include="Data\Configuration\SqlTargetConfig.cs" />
+    <Compile Include="Data\Configuration\TargetConfig.cs" />
+    <Compile Include="Data\TemporalInfo.cs" />
+    <Compile Include="Data\Types\MemberBinary.cs" />
+    <Compile Include="Data\Types\MemberBool.cs" />
+    <Compile Include="Data\Types\MemberDate.cs" />
+    <Compile Include="Data\Types\MemberDateTime.cs" />
+    <Compile Include="Data\Types\MemberFloat.cs" />
+    <Compile Include="Data\Types\MemberGuid.cs" />
+    <Compile Include="Data\Types\MemberLong.cs" />
+    <Compile Include="Data\Types\MemberText.cs" />
+    <Compile Include="Data\Types\MemberType.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpSingleRepositoryGenerator.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\Rest\CSharpRestApiGenerator.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\SingleRepositoryResult.cs" />
+    <Compile Include="Generation\Generators\Sql\Projections\CustomQueryStoredProcedureGenerator.cs" />
+    <Compile Include="Generation\Generators\Sql\LookupData\DataMigrationGenerator.cs" />
+    <Compile Include="Generation\Generators\Sql\LookupData\LookupContext.cs" />
+    <Compile Include="Generation\Generators\Sql\LookupData\LookupMigrationGenerator.cs" />
+    <Compile Include="Generation\Generators\Sql\RoleResult.cs" />
+    <Compile Include="Generation\Generators\Sql\SchemaResult.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\DeleteSproc.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\GetAllSproc.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\GetOneSproc.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\QuerySproc.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\UpsertSproc.cs" />
+    <Compile Include="Generation\Generators\Sql\SqlRoleGenerator.cs" />
+    <Compile Include="Generation\Generators\Sql\SqlSchemaGenerator.cs" />
+    <Compile Include="Generation\Generators\Sql\Types\SqlDescriptionVisitor.cs" />
+    <Compile Include="Generation\Generators\Sql\Types\SqlTypeNameVistor.cs" />
+    <Compile Include="Exceptions\UnknownProjectionAtomException.cs" />
+    <Compile Include="Data\AtomMemberBinder.cs" />
+    <Compile Include="Generation\Generators\AtomGenerator\AtomGenerator.cs" />
+    <Compile Include="Generation\Generators\AtomGenerator\ColumnDefaultParser.cs" />
+    <Compile Include="Generation\Generators\Code\CodeGenerator.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpAccessBase.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpDapperDbAccessGenerator.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpRepoGenerator.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpSprocAccessGenerator.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpDefaultTypeFinder.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\CSharpStrongTypeImplementationFInder.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\NamespaceGenerator.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\Records\CSharpCodeClassGenerator.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\QueryType.cs" />
+    <Compile Include="Generation\Generators\Code\CSharp\RepositoryMemberInfo.cs" />
+    <Compile Include="Types\StrictTypeVisitor.cs" />
+    <Compile Include="Types\ITypeVisitor.cs" />
+    <Compile Include="Generation\Generators\Code\ProjectedAtomRoot.cs" />
+    <Compile Include="Generation\Generators\Code\RepositoryGenerator.cs" />
+    <Compile Include="Types\TypeVisitor.cs" />
+    <Compile Include="Generation\Extensions\EnumerableEx.cs" />
+    <Compile Include="Generation\GeneratorArguments.cs" />
+    <Compile Include="Generation\Data\GeneratorOutput.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\SearchBySproc.cs" />
+    <Compile Include="Generation\Generators\Sql\Tables\CreateTableResult.cs" />
+    <Compile Include="Generation\IGenerator.cs" />
+    <Compile Include="Generation\IResult.cs" />
+    <Compile Include="Generation\Data\ProjectionResult.cs" />
+    <Compile Include="Generation\Generators\Sql\Projections\ProjectionMemberGenerator.cs" />
+    <Compile Include="Generation\Data\Reference.cs" />
+    <Compile Include="Generation\Data\RepositoryResult.cs" />
+    <Compile Include="Generation\Data\ResolvedReference.cs" />
+    <Compile Include="Generation\Data\SimpleReference.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\BatchListSproc.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\InsertSproc.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\GetBySproc.cs" />
+    <Compile Include="Generation\Data\SqlAccessorMetadata.cs" />
+    <Compile Include="Generation\Extensions\StringExt.cs" />
+    <Compile Include="Generation\Generators\Sql\ISqlGenerator.cs" />
+    <Compile Include="Generation\Data\SqlResult.cs" />
+    <Compile Include="Generation\Generators\Sql\Tables\TableType.cs" />
+    <Compile Include="Generation\Generators\Sql\Tables\TableTypeGenerator.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\UpdateSproc.cs" />
+    <Compile Include="Generation\Generators\Sql\Projections\AtomFilter.cs" />
+    <Compile Include="Generation\Generators\Sql\Projections\QueryPlan.cs" />
+    <Compile Include="Generation\Generators\Sql\Projections\QueryPlanBuilder.cs" />
+    <Compile Include="Generation\Generators\Sql\Projections\QuerySqlGenerator.cs" />
+    <Compile Include="Generation\Generators\Sql\Projections\ViewGenerator.cs" />
+    <Compile Include="Data\Serialization\AtomMemberInfoConverter.cs" />
+    <Compile Include="Data\Serialization\AtomRootConverter.cs" />
+    <Compile Include="Data\Serialization\AtomCreator.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\BaseStoredProcedureGenerator.cs" />
+    <Compile Include="Data\Serialization\JsonCreationConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.partial.cs" />
+    <Compile Include="Generation\Generators\Sql\Tables\AlternateKeyDefinitions.cs" />
+    <Compile Include="Generation\Generators\Sql\Tables\TableIndexDefinitions.cs" />
+    <Compile Include="Generation\Generators\Sql\Tables\AtomMemberDefinitions.cs" />
+    <Compile Include="Generation\Generators\Sql\Tables\CreateTable.cs" />
+    <Compile Include="Data\Serialization\LookupValueConverter.cs" />
+    <Compile Include="Data\Serialization\OrderedAtomMemberConverter.cs" />
+    <Compile Include="Data\Serialization\ProjectionInfoConverter.cs" />
+    <Compile Include="Data\Serialization\TemporalInfoConverter.cs" />
+    <Compile Include="Generation\Generators\Sql\SqlGenerator.cs" />
+    <Compile Include="Generation\Generators\Sql\Sprocs\StoredProcedureResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Generation\Generators\Code\CSharp\Repositories\" />
+    <Folder Include="Generation\Generators\Code\CSharp\Rest\Apis\" />
+    <Folder Include="Generation\Generators\Code\CSharp\Rest\Contracts\" />
+    <Folder Include="SqlTypeDef\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

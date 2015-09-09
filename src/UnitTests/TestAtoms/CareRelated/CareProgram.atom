@@ -1,0 +1,12 @@
+﻿{
+    "name": "CareProgram",
+    "members": {
+        "CareProgramGuid": { "key": true },
+        "CareOrgGuid": { "reference": { "name": "CareOrg" } }        
+    },
+    "additionalInfo": {
+        "hideKey": true,
+        "temporal": true,
+        "hasActive": true
+    }
+}

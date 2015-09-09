@@ -1,0 +1,84 @@
+<Project InitialTargets="BuildPropertiesInitialize" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+    <PropertyGroup>
+        <BuildRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\'))</BuildRoot>
+        <BuildToolsPath>$(BuildRoot)build</BuildToolsPath>
+        <RefsPath>$(BuildRoot)references</RefsPath>
+
+        <NuGetPackageDirectory>$(BuildToolsPath)\packages</NuGetPackageDirectory>
+        <PackagesDirectory>$(NuGetPackageDirectory)</PackagesDirectory>
+        <AspNetPackagesDirectory>$(BuildToolsPath)\aspnet-packages</AspNetPackagesDirectory>
+        <RuntimesDirectory>$(BuildToolsPath)\runtimes</RuntimesDirectory>
+
+        <ArtifactsDirectory>$(BuildRoot).artifacts</ArtifactsDirectory>
+        <TestResultsDirectory>$(BuildRoot).tests</TestResultsDirectory>
+        <ProjectDirectoryName>$([System.IO.Path]::GetFileName($(MSBuildProjectDirectory)))</ProjectDirectoryName>
+        <UseNuGetNoCache>false</UseNuGetNoCache>
+        <UseCSharp6>true</UseCSharp6>
+    </PropertyGroup>
+
+    <!-- Import any build customizations, such as artifacts prefix, etc.. -->
+    <PropertyGroup>
+        <_BuildPropertiesFile>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildProjectDirectory), 'build.props'))\build.props</_BuildPropertiesFile>
+    </PropertyGroup>
+    <Import
+        Project="$(_BuildPropertiesFile)"
+        Condition="Exists('$(_BuildPropertiesFile)')" />
+
+    <PropertyGroup Condition="'$(UseCSharp6)' == 'true'">
+        <CscToolPath>$(PackagesDirectory)\Microsoft.Net.Compilers.1.0.0\tools</CscToolPath>
+        <CscToolExe>csc.exe</CscToolExe>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ArtifactsPath>$(ArtifactsDirectory)\$(ProjectDirectoryName)</ArtifactsPath>
+        <ArtifactsPath Condition="'$(ArtifactsPrefix)' != ''">$(ArtifactsDirectory)\$(ArtifactsPrefix).$(ProjectDirectoryName)</ArtifactsPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="false">
+        <TestResultsOutputPath>$(TestResultsDirectory)\$(ProjectDirectoryName)</TestResultsOutputPath>
+        <TestResultsOutputPath Condition="'$(ArtifactsPrefix)' != ''">$(TestResultsDirectory)\$(ArtifactsPrefix).$(ProjectDirectoryName)</TestResultsOutputPath>
+    </PropertyGroup>
+
+    <!-- Internal Properties -->
+    <PropertyGroup>
+        <UseHostCompilerIfAvailable>false</UseHostCompilerIfAvailable>
+        <_NuGetToolPath>$(BuildToolsPath)\.nuget\nuget.exe</_NuGetToolPath>
+        <CommonBuildTargetsPath>$(MSBuildThisFileDirectory)CommonBuild.targets</CommonBuildTargetsPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <NugetPackageConfig Include="$(BuildToolsPath)\packages.config" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <BuildPropertiesInitializeDependsOn>
+            _ResolvePackageConfigs;
+            _LogBuildProperties;
+            RestoreNuGetReferences;
+        </BuildPropertiesInitializeDependsOn>
+    </PropertyGroup>
+    <Target Name="BuildPropertiesInitialize" DependsOnTargets="$(BuildPropertiesInitializeDependsOn)" />
+
+    <Target Name="_ResolvePackageConfigs" Condition="'$(IsSlnGen)' != 'true'">
+        <Message Text="==================================================" />
+        <Message Text="== Resolving all package configs to ensure depedencies are downloaded." />
+        <ItemGroup>
+            <NugetPackageConfig Include="$(BuildRoot)**\packages.config" />
+        </ItemGroup>
+    </Target>
+
+    <Target Name="_LogBuildProperties">
+        <Message Text="==================================================" />
+        <Message Text="== Build Properties" />
+        <Message Text="== BuildRoot: $(BuildRoot)" />
+        <Message Text="== BuildToolsPath: $(BuildToolsPath)" />
+        <Message Text="==" />
+        <Message Text="== ArtifactsPrefix: $(ArtifactsPrefix)" />
+        <Message Text="== ArtifactsPath: $(ArtifactsPath)" />
+        <Message Text="==" />
+        <Message Text="== VisualStudioVersion: $(VisualStudioVersion)" />
+        <Message Text="== VSToolsPath: $(VSToolsPath)" />
+        <Message Text="==" />
+    </Target>
+    <Import Project="$(CommonBuildTargetsPath)" />
+</Project>

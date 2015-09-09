@@ -1,0 +1,17 @@
+﻿{
+    "name": "CareOrgPatient",
+    "members": {
+        "CareOrgPatientGuid": { "key": true },
+        "CareOrgGuid": { "reference": { "name": "CareOrg" } },
+        "FirstName": { "unicode": true, "length": 255 },
+        "LastName": { "unicode": true, "length": 255 },
+        "DateOfBirth": "date",
+        "GenderCode": { "type": "string", "length": 255 },
+        "MiddleInitial": { "type": "string", "length": 255 }
+    },
+    "additionalInfo": {
+        "hideKey": true,
+        "temporal": true,
+        "hasActive": true
+    }
+}

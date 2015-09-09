@@ -1,0 +1,15 @@
+﻿{
+    "name": "CareOrg",
+    "members": {
+        "CareOrgGuid": { "key": true },
+        "CareOrgManagerGuid": { "reference": { "name": "CareOrgManager" } },
+        "CareOrgName": { "unicode": true, "unique": true },
+        "CareOrgOid": { "unicode": false, "length": 150 },
+        "ProviderConsentSettingKey": { "optional": true, "type": "string", "length": 100 }
+    },
+    "additionalInfo": {
+        "hideKey": true,
+        "temporal": true,
+        "hasActive": true
+    }
+}
