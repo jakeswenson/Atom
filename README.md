@@ -91,3 +91,8 @@ A sample atom file looks like:
     }
 }
 ```
+
+### Contributors
+
+@devshorts
+@jakeswenson
